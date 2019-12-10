@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/yura/CLionProjects/untitled/main.cpp
+wl/buffer.hpp
+-
+wl/compositor.hpp
+-
+wl/display.hpp
+-
+wl/registry.hpp
+-
+wl/shell.hpp
+-
+wl/shell_surface.hpp
+-
+wl/shm.hpp
+-
+wl/shm_pool.hpp
+-
+wl/surface.hpp
+-
+boost/interprocess/managed_shared_memory.hpp
+-
+cstdint
+-
+iostream
+-
+thread
+-
+

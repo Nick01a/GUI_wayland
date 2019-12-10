@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++11 -g   CMakeFiles/cframe.dir/cframe.cpp.o  -o cframe 
