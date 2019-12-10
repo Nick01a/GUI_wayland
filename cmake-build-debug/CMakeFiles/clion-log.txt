@@ -1,0 +1,36 @@
+/snap/clion/98/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/niklaus/Desktop/untitled(1)/GUI_wayland
+-- The C compiler identification is GNU 7.4.0
+-- The CXX compiler identification is GNU 7.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.1") 
+-- Found WAYLAND_CLIENT: /usr/lib/x86_64-linux-gnu/libwayland-client.so  
+-- Found WAYLAND_SERVER: /usr/lib/x86_64-linux-gnu/libwayland-server.so  
+-- Found WAYLAND_EGL: /usr/lib/x86_64-linux-gnu/libwayland-egl.so  
+-- Found WAYLAND_CURSOR: /usr/lib/x86_64-linux-gnu/libwayland-cursor.so  
+-- Found WAYLAND: /usr/lib/x86_64-linux-gnu/libwayland-client.so;/usr/lib/x86_64-linux-gnu/libwayland-server.so;/usr/lib/x86_64-linux-gnu/libwayland-egl.so;/usr/lib/x86_64-linux-gnu/libwayland-cursor.so  
+-- Checking for module 'egl'
+--   Found egl, version 19.0.8
+-- Found EGL: /usr/include  
+-- Checking for module 'cairo'
+--   Found cairo, version 1.15.10
+-- Found Cairo: /usr/include/cairo  
+-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so   
+-- Checking for one of the modules 'pango'
+-- Checking for one of the modules 'glib-2.0'
+-- Found GLib: /usr/lib/x86_64-linux-gnu/libglib-2.0.so (found version "2.56.4") 
+-- Found Pango: /usr/lib/x86_64-linux-gnu/libpango-1.0.so (found version "1.40.14") 
+-- Checking for one of the modules 'gobject-2.0'
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/niklaus/Desktop/untitled(1)/GUI_wayland/cmake-build-debug
