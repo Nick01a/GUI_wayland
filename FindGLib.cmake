@@ -37,7 +37,11 @@ find_library(GLib_LIBRARY glib-2.0 HINTS ${GLib_PKG_LIBRARY_DIRS})
 set(GLib glib-2.0)
 
 if(GLib_LIBRARY AND NOT GLib_FOUND)
+<<<<<<< HEAD
   add_library(${GLib} SHARED IMPORTED)
+=======
+  add_library(${GLib} SHARED IMPORTED classes/button.cpp)
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
   set_property(TARGET ${GLib} PROPERTY IMPORTED_LOCATION "${GLib_LIBRARY}")
   set_property(TARGET ${GLib} PROPERTY INTERFACE_COMPILE_OPTIONS "${GLib_PKG_CFLAGS_OTHER}")
 

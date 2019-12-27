@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/untitled.iml" filepath="$PROJECT_DIR$/.idea/untitled.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/GUI_wayland.iml" filepath="$PROJECT_DIR$/.idea/GUI_wayland.iml" />
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
     </modules>
   </component>
 </project>

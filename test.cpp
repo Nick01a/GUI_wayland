@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 //
 // Created by yura on 12/10/19.
 //
+=======
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
 #include <EGL/egl.h>
 #include <wayland-egl.h>
 #include <pango/pangocairo.h>

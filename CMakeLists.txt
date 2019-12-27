@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 
 cmake_minimum_required(VERSION 3.5)
 project(untitled)
+=======
+cmake_minimum_required(VERSION 3.5)
+project(GUI_wayland)
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_CXX_FLAGS -std=c++11)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
@@ -46,4 +51,10 @@ SET(ALL_LIBS ${WAYLAND_CLIENT_LIBRARIES} ${CAIRO_LIBRARIES} ${EGL_LIBRARIES}  ${
         ${OPENGL_LIBRARIES} ${Pango_LIBRARY} -lpangocairo-1.0  ${GLIB_LDFLAGS} )
 
 add_executable(test main.cpp)
+<<<<<<< HEAD
 target_link_libraries(test ${ALL_LIBS})
+=======
+add_executable(test1 test.cpp)
+target_link_libraries(test1 ${ALL_LIBS})
+target_link_libraries(test ${ALL_LIBS})
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8

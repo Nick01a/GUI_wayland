@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <utility>
 
 //
@@ -21,3 +22,6 @@ struct CLabel{
         return const_cast<char *>(this->text.c_str());
     }
 };
+=======
+struct
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8

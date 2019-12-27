@@ -1,7 +1,10 @@
+<<<<<<< HEAD
 //
 // Created by yura on 12/3/19.
 //
 
+=======
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
 #include "classes/cframe.cpp"
 #include <EGL/egl.h>
 #include <wayland-egl.h>
@@ -13,9 +16,13 @@
 #include <wayland-client.h>
 #include <wayland-server.h>
 #include <wayland-client-protocol.h>
+<<<<<<< HEAD
 #include <wayland-cursor.h>
 #include <linux/input-event-codes.h>
 #include "handlers/printer.cpp"
+=======
+#include "classes/cairo_handler.cpp"
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
 
 struct wl_display *display = NULL;
 struct wl_compositor *compositor = NULL;
@@ -23,6 +30,7 @@ struct wl_shell *shell;
 struct wl_egl_window *egl_window;
 struct wl_shell_surface *shell_surface;
 struct wl_callback *frame_callback;
+<<<<<<< HEAD
 struct wl_seat *seat;
 int pointer_x;
 int pointer_y;
@@ -32,10 +40,13 @@ struct wl_keyboard *keyboard;
 struct wl_pointer *pointer;
 struct wl_shm* shm;
 PrinterHandler printerHandler;
+=======
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
 EGLDisplay egl_display;
 EGLConfig egl_conf;
 EGLSurface egl_surface;
 EGLContext egl_context;
+<<<<<<< HEAD
 
 static void
 keyboard_handle_keymap(void *data, struct wl_keyboard *keyboard,
@@ -177,6 +188,115 @@ global_registry_handler(void *data, struct wl_registry *registry, uint32_t id,
     } else if (strcmp(interface, "wl_shm") == 0) {
         shm = static_cast<wl_shm *>(wl_registry_bind(registry, id,
                                                      &wl_shm_interface, 1));
+=======
+CairoHandler cairoHandler;
+void print_borders(int w,int h){
+    const GLchar *vShaderStr =
+            "attribute vec4 vPosition;    \n"
+            "void main()                  \n"
+            "{                            \n"
+            "   gl_Position = vPosition;  \n"
+            "}                            \n";
+
+    const GLchar *fShaderStr =
+            "precision mediump float;\n"
+            "void main()                                  \n"
+            "{                                            \n"
+            "  gl_FragColor = vec4 ( 0.0, 0.0, 0.0, 0.0 );\n"
+            "}                                            \n";
+
+    GLuint vertexShader2 = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader2, 1, &vShaderStr, NULL);
+    glCompileShader(vertexShader2);
+    GLuint fragmentShader2 = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader2, 1, &fShaderStr, NULL);
+    glCompileShader(fragmentShader2);
+    GLuint shaderProgram2 = glCreateProgram();
+    glAttachShader(shaderProgram2, vertexShader2);
+    glAttachShader(shaderProgram2, fragmentShader2);
+    glBindAttribLocation(shaderProgram2, 0, "vPosition");
+
+    // Link the program
+    glLinkProgram(shaderProgram2);
+    GLfloat gVertices[] ={
+            -1.0f + 2.0f / w,  1.0f - 2.0f / h, 1.0f, 0.0f, 0.0f, // Top-left
+            1.0f - 2.0f / w ,  1.0f - 2.0f / h, 0.0f, 1.0f, 0.0f, // Top-right
+            1.0f - 2.0f/w, -1.0f + 2.0f / h, 0.0f, 0.0f, 1.0f, // Bottom-right
+            -1.0f + 2.0f / w, -1.0f + 2.0f / h, 1.0f, 1.0f, 1.0f  // Bottom-left
+    };
+    GLushort indices[] = {0, 1, 2, 2, 3, 0};
+    glUseProgram(shaderProgram2);
+    glLineWidth(2);
+    glVertexAttribPointer(0, 6, GL_FLOAT, GL_FALSE, 0, gVertices);
+    glEnableVertexAttribArray(0);
+    glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_SHORT, indices);
+
+    glDeleteShader(vertexShader2);
+    glDeleteShader(fragmentShader2);
+    glDeleteProgram(shaderProgram2);
+    glFlush();
+}
+void print_triangle(int w,int h){
+        const GLchar *vShaderStr =
+                "attribute vec4 vPosition;    \n"
+                "void main()                  \n"
+                "{                            \n"
+                "   gl_Position = vPosition;  \n"
+                "}                            \n";
+
+        const GLchar *fShaderStr =
+                "precision mediump float;\n"
+                "void main()                                  \n"
+                "{                                            \n"
+                "  gl_FragColor = vec4 ( 0.0, 0.0, 0.0, 0.0 );\n"
+                "}                                            \n";
+
+        GLuint vertexShader2 = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(vertexShader2, 1, &vShaderStr, NULL);
+        glCompileShader(vertexShader2);
+        GLuint fragmentShader2 = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(fragmentShader2, 1, &fShaderStr, NULL);
+        glCompileShader(fragmentShader2);
+        GLuint shaderProgram2 = glCreateProgram();
+        glAttachShader(shaderProgram2, vertexShader2);
+        glAttachShader(shaderProgram2, fragmentShader2);
+        glBindAttribLocation(shaderProgram2, 0, "vPosition");
+
+        // Link the program
+        glLinkProgram(shaderProgram2);
+        GLfloat vVertices[] = {
+            -1.0f + 2.0f / w,  1.0f - 2.0f / h, 1.0f, 0.0f, 0.0f, // Top-left
+            1.0f ,  1.0f - 2.0f / h, 0.0f, 1.0f, 0.0f, // Top-right
+            1.0f, 1.0f - 40.0f / h, 0.0f, 0.0f, 1.0f, // Bottom-right
+            -1.0f + 2.0f / w, 1.0f - 40.0f / h, 1.0f, 1.0f, 1.0f,  // Bottom-left
+    };
+        GLushort indices[] = {0, 1, 2, 2, 3, 0,5,4,1};
+        glUseProgram(shaderProgram2);
+        glLineWidth(2);
+        glVertexAttribPointer(0, 6, GL_FLOAT, GL_FALSE, 0, vVertices);
+        glEnableVertexAttribArray(0);
+        glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_SHORT, indices);
+
+        glDeleteShader(vertexShader2);
+        glDeleteShader(fragmentShader2);
+        glDeleteProgram(shaderProgram2);
+        glFlush();
+    }
+static void
+global_registry_handler(void *data, struct wl_registry *registry, uint32_t id,
+                        const char *interface, uint32_t version) {
+    printf("Got a registry event for %s id %d\n", interface, id);
+    if (strcmp(interface, wl_compositor_interface.name) == 0) { // "wl_compositor"
+        compositor = static_cast<wl_compositor *>(wl_registry_bind(registry, id,
+                                                                   &wl_compositor_interface, 1));
+    } else if (strcmp(interface, wl_shell_interface.name) == 0) { // "wl_shell"
+        shell = static_cast<wl_shell *>(wl_registry_bind(registry, id,
+                                                         &wl_shell_interface, 1));
+//    } else if (strcmp(interface, wl_shm_interface.name) == 0) { // "wl_shm"
+//        shm = static_cast<wl_shm *>(wl_registry_bind(registry, id,
+//                                                     &wl_shm_interface, 1));
+//    }
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
     }
 }
 static void
@@ -188,6 +308,10 @@ static const struct wl_registry_listener registry_listener = {
         global_registry_handler,
         global_registry_remover
 };
+<<<<<<< HEAD
+=======
+
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
 static void
 init_egl() {
     EGLint major, minor, count, n, size;
@@ -250,6 +374,7 @@ init_egl() {
                              EGL_NO_CONTEXT, context_attribs);
 }
 
+<<<<<<< HEAD
 
 static void
 handle_ping(void *data, struct wl_shell_surface *shell_surface,
@@ -275,6 +400,88 @@ static const struct wl_shell_surface_listener shell_surface_listener = {
         handle_configure,
         handle_popup_done
 };
+=======
+const GLchar *vShaderStr =
+        "#version 300 es                            \n"
+        "layout(location = 0) in vec4 a_position;   \n"
+        "layout(location = 1) in vec2 a_texCoord;   \n"
+        "out vec2 v_texCoord;                       \n"
+        "void main()                                \n"
+        "{                                          \n"
+        "   gl_Position = a_position;               \n"
+        "   v_texCoord = a_texCoord;                \n"
+        "}                                          \n";
+
+const GLchar *fShaderStr =
+        "#version 300 es                                     \n"
+        "precision mediump float;                            \n"
+        "in vec2 v_texCoord;                                 \n"
+        "layout(location = 0) out vec4 outColor;             \n"
+        "uniform sampler2D s_texture;                        \n"
+        "void main()                                         \n"
+        "{                                                   \n"
+        "  outColor = texture( s_texture, v_texCoord );      \n"
+        "}                                                   \n";
+
+void print_title(char *title, int w, int h) {
+    unsigned int texture_id;
+    int text_width = 0;
+    int text_height = 0;
+    GLuint vertexShader2 = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader2, 1, &vShaderStr, NULL);
+    glCompileShader(vertexShader2);
+    GLuint fragmentShader2 = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader2, 1, &fShaderStr, NULL);
+    glCompileShader(fragmentShader2);
+    GLuint shaderProgram2 = glCreateProgram();
+    glAttachShader(shaderProgram2, vertexShader2);
+    glAttachShader(shaderProgram2, fragmentShader2);
+    glLinkProgram(shaderProgram2);
+    glUseProgram(shaderProgram2);
+
+    cairoHandler.render_text(title,
+                             &text_width,
+                             &text_height,
+                             &texture_id);
+
+    printf("Text w: %i, h: %i\n", text_width, text_height);
+
+    GLfloat vVertices[] = {-1.0f + 4.0f / w, 1.0f, -1.0f,  // Position 0
+                           0.0f, 0.0f,        // TexCoord 0
+                           -1.0f + 4.0f / w, 1.0f - 40.0f/h, -1.0f,  // Position 1
+                           0.0f, 1,        // TexCoord 1
+                           -1.0f + text_width / (float) w, 1.0f - 40.0f / h, -0.7f,  // Position 2
+                           1, 1,        // TexCoord 2
+                           -1.0f + text_width / (float) w, 1.0f, -0.7f,  // Position 3
+                           1, 0.0f,           // TexCoord 3
+    };
+
+    GLushort indices[] = {0, 1, 2, 0, 2, 3};
+    // Load the vertex position
+    glVertexAttribPointer(0, 3, GL_FLOAT,
+                          GL_FALSE, 5 * sizeof(GLfloat), vVertices);
+    // Load the texture coordinate
+    glVertexAttribPointer(1, 2, GL_FLOAT,
+                          GL_FALSE, 5 * sizeof(GLfloat), &vVertices[3]);
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    // Bind the texture
+    glActiveTexture(GL_TEXTURE0);
+
+    // Get the sampler location
+    GLint samplerLoc = glGetUniformLocation(shaderProgram2, "s_texture");
+    glUniform1i(samplerLoc, 0);
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
+    glDeleteShader(vertexShader2);
+    glDeleteShader(fragmentShader2);
+    glDeleteProgram(shaderProgram2);
+    glFlush();
+
+}
+
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
 void build(std::vector<CFrame> items) {
     display = wl_display_connect(NULL);
     if (display == NULL) {
@@ -306,7 +513,10 @@ void build(std::vector<CFrame> items) {
         }
 
         shell_surface = wl_shell_get_shell_surface(shell, object.surface);
+<<<<<<< HEAD
         wl_shell_surface_add_listener(shell_surface,&shell_surface_listener,NULL);
+=======
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
         if (shell_surface == nullptr) {
             fprintf(stderr, "Can't create shell surface\n");
             exit(1);
@@ -322,6 +532,7 @@ void build(std::vector<CFrame> items) {
 
         glClearColor(1,1,1,1);
         glClear(GL_COLOR_BUFFER_BIT);
+<<<<<<< HEAD
         window_w = object.getWidth();
         window_h = object.getHeight();
         for (int i = 0; i < object.vector.size(); ++i) {
@@ -339,6 +550,14 @@ void build(std::vector<CFrame> items) {
         printerHandler.print_borders(object.getWidth(),object.getHeight());
         if (eglSwapBuffers(egl_display, egl_surface))
             fprintf(stderr, "Swapped buffers\n");
+=======
+        print_title(object.getCharTitle(), object.getWidth(), object.getHeight());
+        print_triangle(object.getWidth(), object.getHeight());
+        print_borders(object.getWidth(),object.getHeight());
+        if (eglSwapBuffers(egl_display, egl_surface))
+            fprintf(stderr, "Swapped buffers\n");
+
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
         while ( wl_display_dispatch(display) != -1 ) {
         }
         wl_display_disconnect(display);
@@ -350,6 +569,7 @@ void build(std::vector<CFrame> items) {
 
 int main() {
     CFrame cgObject;
+<<<<<<< HEAD
     CImage cImage = CImage("test.png");
     cImage.setLocation(100,100);
     CLabel cLabel = CLabel("Label Here!");
@@ -362,4 +582,13 @@ int main() {
     std::vector<CFrame> items;
     items.push_back(cgObject);
     build(items);
+=======
+    cgObject.setSize(400, 500);
+    cgObject.setColor(Color::WHITE);
+    cgObject.setTitle("Hello wotlf");
+    std::vector<CFrame> items;
+    items.push_back(cgObject);
+    build(items);
+
+>>>>>>> fe3cc130ab6749fa402cd97be2b0d4e0048e49f8
 }
