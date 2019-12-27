@@ -1,7 +1,4 @@
-//
-// Created by yura on 12/3/19.
-//
-
+#include <utility>
 #include "classes/cframe.cpp"
 #include <EGL/egl.h>
 #include <wayland-egl.h>
@@ -15,6 +12,7 @@
 #include <wayland-client-protocol.h>
 #include <wayland-cursor.h>
 #include <linux/input-event-codes.h>
+#include <zconf.h>
 #include "handlers/printer.cpp"
 
 struct wl_display *display = NULL;
@@ -36,56 +34,8 @@ EGLDisplay egl_display;
 EGLConfig egl_conf;
 EGLSurface egl_surface;
 EGLContext egl_context;
+std::vector<CButton> buttons;
 
-static void
-keyboard_handle_keymap(void *data, struct wl_keyboard *keyboard,
-                       uint32_t format, int fd, uint32_t size)
-{
-}
-
-static void
-keyboard_handle_enter(void *data, struct wl_keyboard *keyboard,
-                      uint32_t serial, struct wl_surface *surface,
-                      struct wl_array *keys)
-{
-    fprintf(stderr, "Keyboard gained focus\n");
-}
-
-static void
-keyboard_handle_leave(void *data, struct wl_keyboard *keyboard,
-                      uint32_t serial, struct wl_surface *surface)
-{
-    fprintf(stderr, "Keyboard lost focus\n");
-}
-
-static void
-keyboard_handle_key(void *data, struct wl_keyboard *keyboard,
-                    uint32_t serial, uint32_t time, uint32_t key,
-                    uint32_t state)
-{
-    if (key == 0x01) {
-        wl_display_disconnect(display);
-        printf("disconnected from display\n");
-        exit(0);
-    }
-}
-
-
-static void
-keyboard_handle_modifiers(void *data, struct wl_keyboard *keyboard,
-                          uint32_t serial, uint32_t mods_depressed,
-                          uint32_t mods_latched, uint32_t mods_locked,
-                          uint32_t group)
-{
-}
-
-static const struct wl_keyboard_listener keyboard_listener = {
-        keyboard_handle_keymap,
-        keyboard_handle_enter,
-        keyboard_handle_leave,
-        keyboard_handle_key,
-        keyboard_handle_modifiers,
-};
 static void
 pointer_handle_enter(void *data, struct wl_pointer *pointer,
                      uint32_t serial, struct wl_surface *surface,
@@ -119,6 +69,11 @@ pointer_handle_button(void *data, struct wl_pointer *wl_pointer,
         printf("disconnected from display\n");
         exit(0);
     }
+    for (auto &i : buttons) {
+        if (((button == BTN_LEFT) && i.isInside(pointer_x,pointer_y))){
+            i.action();
+        }
+    }
 }
 
 static void
@@ -135,6 +90,54 @@ static const struct wl_pointer_listener pointer_listener = {
         pointer_handle_axis
 };
 
+static void
+keyboard_handle_keymap(void *data, struct wl_keyboard *keyboard,
+                       uint32_t format, int fd, uint32_t size)
+{
+}
+
+static void
+keyboard_handle_enter(void *data, struct wl_keyboard *keyboard,
+                      uint32_t serial, struct wl_surface *surface,
+                      struct wl_array *keys)
+{
+    fprintf(stderr, "Keyboard gained focus\n");
+}
+
+static void
+keyboard_handle_leave(void *data, struct wl_keyboard *keyboard,
+                      uint32_t serial, struct wl_surface *surface)
+{
+    fprintf(stderr, "Keyboard lost focus\n");
+}
+
+static void
+keyboard_handle_key(void *data, struct wl_keyboard *keyboard,
+                    uint32_t serial, uint32_t time, uint32_t key,
+                    uint32_t state)
+{
+    if (key == 0x01) {
+        printf("disconnected from display\n");
+        exit(0);
+    }
+}
+
+
+static void
+keyboard_handle_modifiers(void *data, struct wl_keyboard *keyboard,
+                          uint32_t serial, uint32_t mods_depressed,
+                          uint32_t mods_latched, uint32_t mods_locked,
+                          uint32_t group)
+{
+}
+
+static const struct wl_keyboard_listener keyboard_listener = {
+        keyboard_handle_keymap,
+        keyboard_handle_enter,
+        keyboard_handle_leave,
+        keyboard_handle_key,
+        keyboard_handle_modifiers,
+};
 static void
 seat_handle_capabilities(void *data, struct wl_seat *seat,
                          uint32_t caps)
@@ -275,7 +278,34 @@ static const struct wl_shell_surface_listener shell_surface_listener = {
         handle_configure,
         handle_popup_done
 };
-void build(std::vector<CFrame> items) {
+void paint(CFrame object){
+    glClearColor(1,1,1,1);
+    glClear(GL_COLOR_BUFFER_BIT);
+    window_w = object.getWidth();
+    window_h = object.getHeight();
+    for (int i = 0; i < object.vector.size(); ++i) {
+        printerHandler.print_title(object.vector[i].getCharText(),object.getWidth(),object.getHeight(),
+                                   object.vector[i].x,object.vector[i].y);
+    }
+    printerHandler.print_image(object.cImage.getCharText(),object.getWidth(),object.getHeight(),
+                               object.cImage.x,object.cImage.y);
+    for (int i = 0; i < object.images.size(); ++i) {
+        printerHandler.print_image(object.images[i].getCharText(),object.getWidth(),object.getHeight(),
+                                   object.images[i].x,object.images[i].y);
+    }
+    for (int i = 0; i < object.buttons.size(); ++i){
+        printerHandler.print_title(object.buttons[i].getCharTitle(),object.getWidth(),object.getHeight(),
+                                   object.buttons[i].x,object.buttons[i].y);
+        printerHandler.print_butoon_borders(object.getWidth(),object.getHeight(), buttons[i].getWidth(), buttons[i].getHeight(), object.buttons[i].x,object.buttons[i].y);
+    }
+    printerHandler.print_title(object.getCharTitle(), object.getWidth(), object.getHeight(),0,0);
+    printerHandler.print_triangle(object.getWidth(), object.getHeight());
+    printerHandler.print_borders(object.getWidth(),object.getHeight());
+    if (eglSwapBuffers(egl_display, egl_surface))
+        fprintf(stderr, "Swapped buffers\n");
+}
+
+void build(CFrame object) {
     display = wl_display_connect(NULL);
     if (display == NULL) {
         fprintf(stderr, "Can't connect to display\n");
@@ -295,8 +325,6 @@ void build(std::vector<CFrame> items) {
         fprintf(stderr, "Found compositor\n");
     }
     init_egl();
-    for (CFrame object : items) {
-
         object.surface = wl_compositor_create_surface(compositor);
         if (object.surface == nullptr) {
             fprintf(stderr, "Can't create surface\n");
@@ -320,34 +348,21 @@ void build(std::vector<CFrame> items) {
         eglMakeCurrent(egl_display, egl_surface,
                        egl_surface, egl_context);
 
-        glClearColor(1,1,1,1);
-        glClear(GL_COLOR_BUFFER_BIT);
-        window_w = object.getWidth();
-        window_h = object.getHeight();
-        for (int i = 0; i < object.vector.size(); ++i) {
-            printerHandler.print_title(object.vector[i].getCharText(),object.getWidth(),object.getHeight(),
-                    object.vector[i].x,object.vector[i].y);
-        }
-        printerHandler.print_image(object.cImage.getCharText(),object.getWidth(),object.getHeight(),
-                    object.cImage.x,object.cImage.y);
-        for (int i = 0; i < object.images.size(); ++i) {
-            printerHandler.print_image(object.images[i].getCharText(),object.getWidth(),object.getHeight(),
-                        object.images[i].x,object.images[i].y);
-        }
-        printerHandler.print_title(object.getCharTitle(), object.getWidth(), object.getHeight(),0,0);
-        printerHandler.print_triangle(object.getWidth(), object.getHeight());
-        printerHandler.print_borders(object.getWidth(),object.getHeight());
-        if (eglSwapBuffers(egl_display, egl_surface))
-            fprintf(stderr, "Swapped buffers\n");
+        paint(object);
         while ( wl_display_dispatch(display) != -1 ) {
         }
         wl_display_disconnect(display);
         printf("disconnected from display\n");
 
         exit(0);
-    }
 }
-
+void print_hello() {
+    CFrame cgObject;
+    cgObject.setSize(100, 100);
+    cgObject.setColor(Color::WHITE);
+    cgObject.setTitle("Title!");
+    build(cgObject);
+}
 int main() {
     CFrame cgObject;
     CImage cImage = CImage("test.png");
@@ -359,7 +374,10 @@ int main() {
     cgObject.setTitle("Title Here!");
     cgObject.addLabel(cLabel);
     cgObject.addImage(cImage);
-    std::vector<CFrame> items;
-    items.push_back(cgObject);
-    build(items);
+    CButton cButton = CButton("Click me",print_hello);
+    cButton.setSize(100,100);
+    cButton.setLocation(50,50);
+    cgObject.addButton(cButton);
+    buttons.push_back(cButton);
+    build(cgObject);
 }

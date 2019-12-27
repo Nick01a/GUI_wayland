@@ -1,8 +1,4 @@
 #include <utility>
-
-//
-// Created by yura on 12/10/19.
-//
 #include <iostream>
 
 struct CLabel{

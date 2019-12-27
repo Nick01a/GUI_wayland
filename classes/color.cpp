@@ -1,6 +1,3 @@
-//
-// Created by yura on 12/3/19.
-//
 #include <stdint.h>
 struct Color {
     static const uint32_t RED = 0xff0000;

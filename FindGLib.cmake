@@ -37,7 +37,7 @@ find_library(GLib_LIBRARY glib-2.0 HINTS ${GLib_PKG_LIBRARY_DIRS})
 set(GLib glib-2.0)
 
 if(GLib_LIBRARY AND NOT GLib_FOUND)
-  add_library(${GLib} SHARED IMPORTED)
+  add_library(${GLib} SHARED IMPORTED handlers/CKeyboardEventHandler.cpp handlers/c_keyboard_event_handler.cpp)
   set_property(TARGET ${GLib} PROPERTY IMPORTED_LOCATION "${GLib_LIBRARY}")
   set_property(TARGET ${GLib} PROPERTY INTERFACE_COMPILE_OPTIONS "${GLib_PKG_CFLAGS_OTHER}")
 

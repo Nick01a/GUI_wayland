@@ -4,13 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/yura/CLionProjects/untitled/main.cpp" "/home/yura/CLionProjects/untitled/cmake-build-debug/CMakeFiles/test.dir/main.cpp.o"
+  "/home/niklaus/Desktop/untitled(1)/GUI_wayland/main.cpp" "/home/niklaus/Desktop/untitled(1)/GUI_wayland/cmake-build-debug/CMakeFiles/test.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/usr/local/include"
   "/usr/include/cairo"
   "/usr/include/pango-1.0"
   "/usr/include/glib-2.0"

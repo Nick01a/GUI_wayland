@@ -6,7 +6,53 @@
 
 #IncludeRegexTransform: 
 
-/home/yura/CLionProjects/untitled/classes/cairo_handler.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cbutton.cpp
+utility
+-
+string
+-
+cgobject.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cgobject.cpp
+functional
+-
+
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cframe.cpp
+utility
+-
+cbutton.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cbutton.cpp
+clabel.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/clabel.cpp
+cimage.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cimage.cpp
+
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cgobject.cpp
+utility
+-
+iostream
+-
+vector
+-
+color.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/color.cpp
+
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cimage.cpp
+utility
+-
+iostream
+-
+
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/clabel.cpp
+utility
+-
+iostream
+-
+
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/color.cpp
+stdint.h
+-
+
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/cairo_handler.cpp
 pango/pangocairo.h
 -
 EGL/egl.h
@@ -16,71 +62,19 @@ GLES2/gl2.h
 stdlib.h
 -
 
-/home/yura/CLionProjects/untitled/classes/cframe.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/printer.cpp
+EGL/egl.h
+-
+GLES2/gl2.h
+-
+cairo_handler.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/cairo_handler.cpp
+
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/main.cpp
 utility
 -
-clabel.cpp
-/home/yura/CLionProjects/untitled/classes/clabel.cpp
-cgobject.cpp
-/home/yura/CLionProjects/untitled/classes/cgobject.cpp
-cimage.cpp
-/home/yura/CLionProjects/untitled/classes/cimage.cpp
-
-/home/yura/CLionProjects/untitled/classes/cgobject.cpp
-utility
--
-handler.cpp
-/home/yura/CLionProjects/untitled/classes/handler.cpp
-iostream
--
-vector
--
-color.cpp
-/home/yura/CLionProjects/untitled/classes/color.cpp
-
-/home/yura/CLionProjects/untitled/classes/cimage.cpp
-utility
--
-iostream
--
-
-/home/yura/CLionProjects/untitled/classes/clabel.cpp
-utility
--
-iostream
--
-
-/home/yura/CLionProjects/untitled/classes/color.cpp
-stdint.h
--
-
-/home/yura/CLionProjects/untitled/classes/handler.cpp
-stdio.h
--
-stdlib.h
--
-string.h
--
-wayland-client.h
--
-wayland-server.h
--
-wayland-client-protocol.h
--
-fcntl.h
--
-sys/mman.h
--
-errno.h
--
-stdint.h
--
-unistd.h
--
-
-/home/yura/CLionProjects/untitled/main.cpp
 classes/cframe.cpp
-/home/yura/CLionProjects/untitled/classes/cframe.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cframe.cpp
 EGL/egl.h
 -
 wayland-egl.h
@@ -101,12 +95,14 @@ wayland-server.h
 -
 wayland-client-protocol.h
 -
-classes/cairo_handler.cpp
-/home/yura/CLionProjects/untitled/classes/cairo_handler.cpp
 wayland-cursor.h
 -
 linux/input-event-codes.h
 -
+zconf.h
+-
+handlers/printer.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/printer.cpp
 
 /usr/include/cairo/cairo-deprecated.h
 
@@ -281,6 +277,8 @@ glib/gurifuncs.h
 -
 glib/gutils.h
 -
+glib/guuid.h
+-
 glib/gvarianttype.h
 -
 glib/gvariant.h
@@ -359,6 +357,8 @@ glib/gtypes.h
 /usr/include/glib-2.0/glib/gbacktrace.h
 glib/gtypes.h
 -
+sys/select.h
+-
 signal.h
 -
 
@@ -429,6 +429,8 @@ glib/gquark.h
 -
 
 /usr/include/glib-2.0/glib/gfileutils.h
+glibconfig.h
+-
 glib/gerror.h
 -
 
@@ -465,6 +467,8 @@ glib/gstring.h
 -
 
 /usr/include/glib-2.0/glib/gkeyfile.h
+glib/gbytes.h
+-
 glib/gerror.h
 -
 
@@ -512,6 +516,8 @@ stdarg.h
 glib/gtypes.h
 -
 glib/gmacros.h
+-
+glib/gvariant.h
 -
 
 /usr/include/glib-2.0/glib/gnode.h
@@ -595,6 +601,8 @@ glib/gmacros.h
 -
 glib/gtypes.h
 -
+glib/gerror.h
+-
 
 /usr/include/glib-2.0/glib/gstring.h
 glib/gtypes.h
@@ -618,6 +626,8 @@ glib/gstring.h
 glib/gerror.h
 -
 glib/gslist.h
+-
+string.h
 -
 
 /usr/include/glib-2.0/glib/gthread.h
@@ -673,6 +683,12 @@ glib/gtypes.h
 -
 stdarg.h
 -
+stdlib.h
+-
+
+/usr/include/glib-2.0/glib/guuid.h
+glib/gtypes.h
+-
 
 /usr/include/glib-2.0/glib/gvariant.h
 glib/gvarianttype.h
@@ -683,8 +699,6 @@ glib/gbytes.h
 -
 
 /usr/include/glib-2.0/glib/gvarianttype.h
-glib/gmessages.h
--
 glib/gtypes.h
 -
 
@@ -805,6 +819,8 @@ glib-object.h
 /usr/include/pango-1.0/pango/pango-bidi-type.h
 glib.h
 -
+pango/pango-version-macros.h
+-
 
 /usr/include/pango-1.0/pango/pango-break.h
 glib.h
@@ -823,6 +839,8 @@ pango/pango-attributes.h
 /usr/include/pango-1.0/pango/pango-coverage.h
 glib.h
 -
+pango/pango-version-macros.h
+-
 
 /usr/include/pango-1.0/pango/pango-engine.h
 pango/pango-types.h
@@ -838,6 +856,8 @@ pango/pango-script.h
 
 /usr/include/pango-1.0/pango/pango-enum-types.h
 glib-object.h
+-
+pango/pango-version-macros.h
 -
 
 /usr/include/pango-1.0/pango/pango-features.h
@@ -897,6 +917,8 @@ glib.h
 -
 glib-object.h
 -
+pango/pango-version-macros.h
+-
 pango/pango-script.h
 -
 
@@ -925,6 +947,8 @@ pango/pango-layout.h
 /usr/include/pango-1.0/pango/pango-script.h
 glib.h
 -
+pango/pango-version-macros.h
+-
 pango/pango-language.h
 -
 
@@ -936,6 +960,8 @@ pango/pango-types.h
 glib.h
 -
 glib-object.h
+-
+pango/pango-version-macros.h
 -
 pango/pango-gravity.h
 -
@@ -954,6 +980,12 @@ stdio.h
 glib.h
 -
 pango/pango-font.h
+-
+
+/usr/include/pango-1.0/pango/pango-version-macros.h
+pango/pango-features.h
+-
+glib.h
 -
 
 /usr/include/pango-1.0/pango/pango.h
@@ -1001,6 +1033,8 @@ pango/pango-types.h
 -
 pango/pango-utils.h
 -
+pango/pango-version-macros.h
+-
 
 /usr/include/pango-1.0/pango/pangocairo.h
 pango/pango.h
@@ -1015,82 +1049,4 @@ limits.h
 -
 float.h
 -
-
-/usr/local/include/wayland-client-core.h
-stdint.h
--
-wayland-util.h
-/usr/local/include/wayland-util.h
-wayland-version.h
-/usr/local/include/wayland-version.h
-
-/usr/local/include/wayland-client-protocol.h
-stdint.h
--
-stddef.h
--
-wayland-client.h
-/usr/local/include/wayland-client.h
-
-/usr/local/include/wayland-client.h
-wayland-client-core.h
-/usr/local/include/wayland-client-core.h
-wayland-client-protocol.h
-/usr/local/include/wayland-client-protocol.h
-
-/usr/local/include/wayland-cursor.h
-stdint.h
--
-
-/usr/local/include/wayland-egl-backend.h
-stdint.h
--
-
-/usr/local/include/wayland-egl-core.h
-
-/usr/local/include/wayland-egl.h
-wayland-client.h
--
-wayland-egl-core.h
-/usr/local/include/wayland-egl-core.h
-
-/usr/local/include/wayland-server-core.h
-sys/types.h
--
-stdint.h
--
-stdbool.h
--
-wayland-util.h
-/usr/local/include/wayland-util.h
-wayland-version.h
-/usr/local/include/wayland-version.h
-
-/usr/local/include/wayland-server-protocol.h
-stdint.h
--
-stddef.h
--
-wayland-server.h
-/usr/local/include/wayland-server.h
-
-/usr/local/include/wayland-server.h
-stdint.h
--
-wayland-server-core.h
-/usr/local/include/wayland-server-core.h
-wayland-server-protocol.h
-/usr/local/include/wayland-server-protocol.h
-
-/usr/local/include/wayland-util.h
-math.h
--
-stddef.h
--
-inttypes.h
--
-stdarg.h
--
-
-/usr/local/include/wayland-version.h
 

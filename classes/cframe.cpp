@@ -1,14 +1,12 @@
 #include <utility>
-//
-// Created by yura on 12/3/19.
-//
+#include "cbutton.cpp"
 #include "clabel.cpp"
-#include "cgobject.cpp"
 #include "cimage.cpp"
 struct CFrame : CGObject{
     std::string title;
     std::vector<CLabel> vector;
     std::vector<CImage> images;
+    std::vector<CButton> buttons;
     CImage cImage = CImage("exit.png");
     void setTitle(std::string title){
         this->title = std::move(title);
@@ -29,5 +27,8 @@ struct CFrame : CGObject{
     }
     void addImage(CImage &c){
         this->images.push_back(c);
+    }
+    void addButton(CButton &c){
+        this->buttons.push_back(c);
     }
 };

@@ -1,6 +1,3 @@
-//
-// Created by yura on 12/9/19.
-//
 #include <pango/pangocairo.h>
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
