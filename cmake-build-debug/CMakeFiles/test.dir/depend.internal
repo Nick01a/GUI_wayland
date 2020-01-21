@@ -8,6 +8,7 @@ CMakeFiles/test.dir/main.cpp.o
  /home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cimage.cpp
  /home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/clabel.cpp
  /home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/color.cpp
+ /home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/c_keyboard_event_handler.cpp
  /home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/cairo_handler.cpp
  /home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/printer.cpp
  /home/niklaus/Desktop/untitled(1)/GUI_wayland/main.cpp

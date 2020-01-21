@@ -19,12 +19,20 @@ functional
 /home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cframe.cpp
 utility
 -
+GLES2/gl2.h
+-
+wayland-egl.h
+-
+linux/input-event-codes.h
+-
 cbutton.cpp
 /home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cbutton.cpp
 clabel.cpp
 /home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/clabel.cpp
 cimage.cpp
 /home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cimage.cpp
+../handlers/printer.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/printer.cpp
 
 /home/niklaus/Desktop/untitled(1)/GUI_wayland/classes/cgobject.cpp
 utility
@@ -52,6 +60,12 @@ iostream
 stdint.h
 -
 
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/c_keyboard_event_handler.cpp
+stdint.h
+-
+iostream
+-
+
 /home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/cairo_handler.cpp
 pango/pangocairo.h
 -
@@ -60,6 +74,8 @@ EGL/egl.h
 GLES2/gl2.h
 -
 stdlib.h
+-
+iostream
 -
 
 /home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/printer.cpp
@@ -101,8 +117,10 @@ linux/input-event-codes.h
 -
 zconf.h
 -
-handlers/printer.cpp
-/home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/printer.cpp
+wait.h
+-
+handlers/c_keyboard_event_handler.cpp
+/home/niklaus/Desktop/untitled(1)/GUI_wayland/handlers/c_keyboard_event_handler.cpp
 
 /usr/include/cairo/cairo-deprecated.h
 

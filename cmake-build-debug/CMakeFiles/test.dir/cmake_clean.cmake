@@ -2,7 +2,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/test.dir/main.cpp.o"
   "test"
   "test.pdb"
-  "xdg-shell-client-protocol.h"
 )
 
 # Per-language clean rules from dependency scanning.

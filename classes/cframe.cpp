@@ -1,11 +1,12 @@
 #include <utility>
 #include <GLES2/gl2.h>
 #include <wayland-egl.h>
+#include <linux/input-event-codes.h>
 #include "cbutton.cpp"
 #include "clabel.cpp"
 #include "cimage.cpp"
-#include "../handlers/c_keyboard_event_handler.cpp"
 #include "../handlers/printer.cpp"
+
 struct CFrame : CGObject{
     std::string title;
     std::vector<CLabel> vector;
@@ -17,14 +18,20 @@ struct CFrame : CGObject{
     EGLSurface egl_surface;
     EGLContext egl_context;
     struct wl_egl_window *egl_window;
-    CImage cImage = CImage("exit.png");
+    CImage exitImage = CImage("../pictures/exit.png");
+    CImage resizeImage = CImage("../pictures/resize.png");
+    CImage collapseImage = CImage("../pictures/collapse.png");
+    CImage logo = CImage("../pictures/logo.png");
     void setTitle(std::string title){
         this->title = std::move(title);
     }
     void setSize(int h,int w){
         this->HEIGHT=h+30;
         this->WIDTH =w;
-        this->cImage.setLocation(4,4);
+        this->exitImage.setLocation(4,4);
+        this->resizeImage.setLocation(20,4);
+        this->collapseImage.setLocation(40,4);
+        this->logo.setLocation(100,4);
     }
     std::string getTitle(){
         return this->title;
@@ -113,22 +120,26 @@ struct CFrame : CGObject{
             printerHandler.print_title(i.getCharText(),getWidth(),getHeight(),
                                        i.x, i.y);
         }
-        printerHandler.print_image(cImage.getCharText(),getWidth(),getHeight(),
-                                   cImage.x,cImage.y);
+        printerHandler.print_image(exitImage.getCharText(),getWidth(),getHeight(),
+                                   exitImage.x,exitImage.y);
+        printerHandler.print_image(resizeImage.getCharText(),getWidth(),getHeight(),
+                                   resizeImage.x,resizeImage.y);
+        printerHandler.print_image(collapseImage.getCharText(),getWidth(),getHeight(),
+                                   collapseImage.x,collapseImage.y);
+        printerHandler.print_image(logo.getCharText(),getWidth(),getHeight(),
+                                   logo.x,logo.y);
         for (auto &image : images) {
             printerHandler.print_image(image.getCharText(),getWidth(),getHeight(),
                                        image.x, image.y);
         }
         for (auto &button : buttons_list) {
-            printerHandler.print_title(button.getCharTitle(),getWidth(),getHeight(),
+            printerHandler.print_button(button.getCharTitle(),getWidth(),getHeight(),
                                        button.x, button.y);
         }
-        printerHandler.print_title(getCharTitle(), getWidth(), getHeight(),100,0);
+        printerHandler.print_title(getCharTitle(), getWidth(), getHeight(),120,0);
         printerHandler.print_triangle(getWidth(), getHeight());
         printerHandler.print_borders(getWidth(),getHeight());
         if (eglSwapBuffers(egl_display, egl_surface))
             fprintf(stderr, "Swapped buffers\n");
     }
-
-
 };

@@ -7,6 +7,7 @@ CMakeFiles/test.dir/main.cpp.o: ../classes/cgobject.cpp
 CMakeFiles/test.dir/main.cpp.o: ../classes/cimage.cpp
 CMakeFiles/test.dir/main.cpp.o: ../classes/clabel.cpp
 CMakeFiles/test.dir/main.cpp.o: ../classes/color.cpp
+CMakeFiles/test.dir/main.cpp.o: ../handlers/c_keyboard_event_handler.cpp
 CMakeFiles/test.dir/main.cpp.o: ../handlers/cairo_handler.cpp
 CMakeFiles/test.dir/main.cpp.o: ../handlers/printer.cpp
 CMakeFiles/test.dir/main.cpp.o: ../main.cpp
