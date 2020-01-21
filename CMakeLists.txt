@@ -45,5 +45,6 @@ include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
 SET(ALL_LIBS ${WAYLAND_CLIENT_LIBRARIES} ${CAIRO_LIBRARIES} ${EGL_LIBRARIES}  ${WAYLAND_EGL_LIBRARIES}
         ${OPENGL_LIBRARIES} ${Pango_LIBRARY} -lpangocairo-1.0  ${GLIB_LDFLAGS} )
 
-add_executable(test main.cpp)
+add_executable(test main.cpp xdg-shell-client-protocol.h)
 target_link_libraries(test ${ALL_LIBS})
+

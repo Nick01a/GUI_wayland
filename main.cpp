@@ -13,27 +13,22 @@
 #include <wayland-cursor.h>
 #include <linux/input-event-codes.h>
 #include <zconf.h>
-#include "handlers/printer.cpp"
+#include "xdg-shell-client-protocol.h"
 
+//struct xdg_wm_base *wm_base = NULL;
 struct wl_display *display = NULL;
 struct wl_compositor *compositor = NULL;
 struct wl_shell *shell;
-struct wl_egl_window *egl_window;
-struct wl_shell_surface *shell_surface;
+//struct xdg_shell *shell;
+//struct wl_shell_surface *shell_surface;
+struct xdg_surface *shell_surface;
 struct wl_callback *frame_callback;
 struct wl_seat *seat;
 int pointer_x;
 int pointer_y;
-int window_w;
-int window_h;
 struct wl_keyboard *keyboard;
 struct wl_pointer *pointer;
 struct wl_shm* shm;
-PrinterHandler printerHandler;
-EGLDisplay egl_display;
-EGLConfig egl_conf;
-EGLSurface egl_surface;
-EGLContext egl_context;
 std::vector<CButton> buttons;
 
 static void
@@ -65,8 +60,7 @@ pointer_handle_button(void *data, struct wl_pointer *wl_pointer,
     if (button == BTN_LEFT && state == WL_POINTER_BUTTON_STATE_PRESSED)
         wl_shell_surface_move(shell_surface,
                               seat, serial);
-    if ((button == BTN_LEFT) && (pointer_x > window_w - 30) && (pointer_y < 30)) {
-        printf("disconnected from display\n");
+    if ((button == BTN_LEFT) && (pointer_x < 30) && (pointer_y < 30)) {
         exit(0);
     }
     for (auto &i : buttons) {
@@ -90,53 +84,13 @@ static const struct wl_pointer_listener pointer_listener = {
         pointer_handle_axis
 };
 
-static void
-keyboard_handle_keymap(void *data, struct wl_keyboard *keyboard,
-                       uint32_t format, int fd, uint32_t size)
-{
-}
-
-static void
-keyboard_handle_enter(void *data, struct wl_keyboard *keyboard,
-                      uint32_t serial, struct wl_surface *surface,
-                      struct wl_array *keys)
-{
-    fprintf(stderr, "Keyboard gained focus\n");
-}
-
-static void
-keyboard_handle_leave(void *data, struct wl_keyboard *keyboard,
-                      uint32_t serial, struct wl_surface *surface)
-{
-    fprintf(stderr, "Keyboard lost focus\n");
-}
-
-static void
-keyboard_handle_key(void *data, struct wl_keyboard *keyboard,
-                    uint32_t serial, uint32_t time, uint32_t key,
-                    uint32_t state)
-{
-    if (key == 0x01) {
-        printf("disconnected from display\n");
-        exit(0);
-    }
-}
-
-
-static void
-keyboard_handle_modifiers(void *data, struct wl_keyboard *keyboard,
-                          uint32_t serial, uint32_t mods_depressed,
-                          uint32_t mods_latched, uint32_t mods_locked,
-                          uint32_t group)
-{
-}
 
 static const struct wl_keyboard_listener keyboard_listener = {
-        keyboard_handle_keymap,
-        keyboard_handle_enter,
-        keyboard_handle_leave,
-        keyboard_handle_key,
-        keyboard_handle_modifiers,
+        CKeyboardEventHandler::keyboard_handle_keymap,
+        CKeyboardEventHandler::keyboard_handle_enter,
+        CKeyboardEventHandler::keyboard_handle_leave,
+        CKeyboardEventHandler::keyboard_handle_key,
+        CKeyboardEventHandler::keyboard_handle_modifiers,
 };
 static void
 seat_handle_capabilities(void *data, struct wl_seat *seat,
@@ -191,67 +145,6 @@ static const struct wl_registry_listener registry_listener = {
         global_registry_handler,
         global_registry_remover
 };
-static void
-init_egl() {
-    EGLint major, minor, count, n, size;
-    EGLConfig *configs;
-    int i;
-    EGLint config_attribs[] = {
-            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-            EGL_RED_SIZE, 8,
-            EGL_GREEN_SIZE, 8,
-            EGL_BLUE_SIZE, 8,
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-            EGL_NONE
-    };
-
-    static const EGLint context_attribs[] = {
-            EGL_CONTEXT_CLIENT_VERSION, 2,
-            EGL_NONE
-    };
-
-
-    egl_display = eglGetDisplay((EGLNativeDisplayType) display);
-    if (egl_display == EGL_NO_DISPLAY) {
-        fprintf(stderr, "Can't create egl display\n");
-        exit(1);
-    } else {
-        fprintf(stderr, "Created egl display\n");
-    }
-
-    if (eglInitialize(egl_display, &major, &minor) != EGL_TRUE) {
-        fprintf(stderr, "Can't initialise egl display\n");
-        exit(1);
-    }
-    printf("EGL major: %d, minor %d\n", major, minor);
-
-    eglGetConfigs(egl_display, NULL, 0, &count);
-    printf("EGL has %d configs\n", count);
-
-    EGLint numConfigs = -1;
-    eglGetConfigs(egl_display, NULL, 0, &numConfigs);
-    configs = new EGLConfig[numConfigs];
-    eglChooseConfig(egl_display, config_attribs,
-                    configs, count, &n);
-
-    for (i = 0; i < n; i++) {
-        eglGetConfigAttrib(egl_display,
-                           configs[i], EGL_BUFFER_SIZE, &size);
-        printf("Buffer size for config %d is %d\n", i, size);
-        eglGetConfigAttrib(egl_display,
-                           configs[i], EGL_RED_SIZE, &size);
-        printf("Red size for config %d is %d\n", i, size);
-
-        // just choose the first one
-        egl_conf = configs[i];
-        break;
-    }
-
-    egl_context =
-            eglCreateContext(egl_display,
-                             egl_conf,
-                             EGL_NO_CONTEXT, context_attribs);
-}
 
 
 static void
@@ -278,35 +171,11 @@ static const struct wl_shell_surface_listener shell_surface_listener = {
         handle_configure,
         handle_popup_done
 };
-void paint(CFrame object){
-    glClearColor(1,1,1,1);
-    glClear(GL_COLOR_BUFFER_BIT);
-    window_w = object.getWidth();
-    window_h = object.getHeight();
-    for (int i = 0; i < object.vector.size(); ++i) {
-        printerHandler.print_title(object.vector[i].getCharText(),object.getWidth(),object.getHeight(),
-                                   object.vector[i].x,object.vector[i].y);
-    }
-    printerHandler.print_image(object.cImage.getCharText(),object.getWidth(),object.getHeight(),
-                               object.cImage.x,object.cImage.y);
-    for (int i = 0; i < object.images.size(); ++i) {
-        printerHandler.print_image(object.images[i].getCharText(),object.getWidth(),object.getHeight(),
-                                   object.images[i].x,object.images[i].y);
-    }
-    for (int i = 0; i < object.buttons.size(); ++i){
-        printerHandler.print_title(object.buttons[i].getCharTitle(),object.getWidth(),object.getHeight(),
-                                   object.buttons[i].x,object.buttons[i].y);
-        printerHandler.print_butoon_borders(object.getWidth(),object.getHeight(), buttons[i].getWidth(), buttons[i].getHeight(), object.buttons[i].x,object.buttons[i].y);
-    }
-    printerHandler.print_title(object.getCharTitle(), object.getWidth(), object.getHeight(),0,0);
-    printerHandler.print_triangle(object.getWidth(), object.getHeight());
-    printerHandler.print_borders(object.getWidth(),object.getHeight());
-    if (eglSwapBuffers(egl_display, egl_surface))
-        fprintf(stderr, "Swapped buffers\n");
-}
+
 
 void build(CFrame object) {
     display = wl_display_connect(NULL);
+//    display = xdg_wm_base_connect(NULL);
     if (display == NULL) {
         fprintf(stderr, "Can't connect to display\n");
         exit(1);
@@ -324,7 +193,7 @@ void build(CFrame object) {
     } else {
         fprintf(stderr, "Found compositor\n");
     }
-    init_egl();
+    object.init_egl(display);
         object.surface = wl_compositor_create_surface(compositor);
         if (object.surface == nullptr) {
             fprintf(stderr, "Can't create surface\n");
@@ -343,12 +212,10 @@ void build(CFrame object) {
         }
         wl_shell_surface_set_toplevel(shell_surface);
         frame_callback = wl_surface_frame(object.surface);
-        egl_window = wl_egl_window_create(object.surface, object.getWidth(), object.getHeight());
-        egl_surface = eglCreateWindowSurface(egl_display, egl_conf, (NativeWindowType) egl_window, NULL);
-        eglMakeCurrent(egl_display, egl_surface,
-                       egl_surface, egl_context);
 
-        paint(object);
+
+        object.paint();
+        wl_surface_commit(object.surface);
         while ( wl_display_dispatch(display) != -1 ) {
         }
         wl_display_disconnect(display);
@@ -380,4 +247,10 @@ int main() {
     cgObject.addButton(cButton);
     buttons.push_back(cButton);
     build(cgObject);
+    usleep(1000);
 }
+
+
+
+
+

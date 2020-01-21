@@ -175,52 +175,6 @@ struct PrinterHandler{
         glFlush();
 
     }
-    void print_butoon_borders(int w, int h,int b_w,int b_h,int x,int y){
-        const GLchar *vShaderStr =
-                "attribute vec4 vPosition;    \n"
-                "void main()                  \n"
-                "{                            \n"
-                "   gl_Position = vPosition;  \n"
-                "}                            \n";
-
-        const GLchar *fShaderStr =
-                "precision mediump float;\n"
-                "void main()                                  \n"
-                "{                                            \n"
-                "  gl_FragColor = vec4 ( 0.0, 0.0, 0.0, 0.0 );\n"
-                "}                                            \n";
-
-        GLuint vertexShader2 = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader2, 1, &vShaderStr, NULL);
-        glCompileShader(vertexShader2);
-        GLuint fragmentShader2 = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader2, 1, &fShaderStr, NULL);
-        glCompileShader(fragmentShader2);
-        GLuint shaderProgram2 = glCreateProgram();
-        glAttachShader(shaderProgram2, vertexShader2);
-        glAttachShader(shaderProgram2, fragmentShader2);
-        glBindAttribLocation(shaderProgram2, 0, "vPosition");
-
-        // Link the program
-        glLinkProgram(shaderProgram2);
-        GLfloat gVertices[] ={
-                -1.0f + 2.0f / w,  1.0f - 2.0f / h, 1.0f, 0.0f, 0.0f, // Top-left
-                1.0f - 2.0f / w ,  1.0f - 2.0f / h, 0.0f, 1.0f, 0.0f, // Top-right
-                1.0f - 2.0f/w, -1.0f + 2.0f / h, 0.0f, 0.0f, 1.0f, // Bottom-right
-                -1.0f + 2.0f / w, -1.0f + 2.0f / h, 1.0f, 1.0f, 1.0f  // Bottom-left
-        };
-        GLushort indices[] = {0, 1, 2, 2, 3, 0};
-        glUseProgram(shaderProgram2);
-        glLineWidth(2);
-        glVertexAttribPointer(0, 6, GL_FLOAT, GL_FALSE, 0, gVertices);
-        glEnableVertexAttribArray(0);
-        glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_SHORT, indices);
-
-        glDeleteShader(vertexShader2);
-        glDeleteShader(fragmentShader2);
-        glDeleteProgram(shaderProgram2);
-        glFlush();
-    }
     void print_image(char *filename, int w, int h,int x,int y) {
         unsigned int texture_id;
         int text_width = 0;

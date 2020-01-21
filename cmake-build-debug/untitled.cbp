@@ -94,6 +94,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/niklaus/Desktop/untitled(1)/GUI_wayland/cmake-build-debug/xdg-shell-client-protocol.h">
+			<Option target="test"/>
+		</Unit>
+		<Unit filename="/home/niklaus/Desktop/untitled(1)/GUI_wayland/cmake-build-debug/xdg-shell-client-protocol.h.rule">
+			<Option target="test"/>
+		</Unit>
 		<Unit filename="/home/niklaus/Desktop/untitled(1)/GUI_wayland/main.cpp">
 			<Option target="test"/>
 		</Unit>
